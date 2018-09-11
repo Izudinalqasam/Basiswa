@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus.beasiswa.Helper.SQLiteHelper;
 
@@ -20,6 +21,9 @@ public class ApplyBeasiswa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_beasiswa);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Scholar");
 
         namaB = (TextView) findViewById(R.id.textView2);
         levelB = (TextView) findViewById(R.id.textView5);
@@ -46,5 +50,6 @@ public class ApplyBeasiswa extends AppCompatActivity {
     public void daftarin(){
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.execSQL("insert into applied(nama) values ('"+userNow+"')");
+        Toast.makeText(getApplicationContext(),"Pendaftaran Berhasil", Toast.LENGTH_LONG).show();
     }
 }

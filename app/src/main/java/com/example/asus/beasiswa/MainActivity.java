@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.asus.beasiswa.Helper.SQLiteHelper;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerClick{
     SQLiteHelper sqLiteHelper;
     ArrayList<ModelBeasiswa> beasiswas = new ArrayList<>();
     ArrayList<ModelBeasiswa> hasilS = new ArrayList<>();
+    boolean statusDetail =false;
 
     String [] levelText  = {"Level Pendidikan","S1","S2","S3"};
     String [] destiText = {"Destination","Indonesia","Jepang","Inggris","Prancis","Amerika","Arab","Italy"};
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerClick{
             }
         }
         adapter.swap(hasilS);
+        statusDetail = true;
 
     }
 
@@ -105,10 +109,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerClick{
 
             beasiswas.add(b);
         }
-
-        cursor.close();
+        Log.d("scholar",beasiswas.size()+"");
         adapter = new AddapterBeasiswa(beasiswas,MainActivity.this);
         listBeasiswa.setAdapter(adapter);
+        statusDetail = false;
+        cursor.close();
     }
 
 
@@ -126,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerClick{
                 return true;
             case R.id.singOut :
                 startActivity(new Intent(getApplicationContext(),LoginPage.class));
+                finish();
                 return true;
              default:
                 return super.onOptionsItemSelected(item);
@@ -135,9 +141,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerClick{
 
     @Override
     public void onCLick(View view, int position) {
-        Intent intent = new Intent(getApplicationContext(),ApplyBeasiswa.class);
-        intent.putExtra("beasiswaObj",beasiswas.get(position));
-        intent.putExtra("LoginUn",uLogin);
-        startActivity(intent);
+        if (statusDetail){
+            Intent intent = new Intent(getApplicationContext(),ApplyBeasiswa.class);
+            intent.putExtra("beasiswaObj",hasilS.get(position));
+            intent.putExtra("LoginUn",uLogin);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(getApplicationContext(),ApplyBeasiswa.class);
+            intent.putExtra("beasiswaObj",beasiswas.get(position));
+            intent.putExtra("LoginUn",uLogin);
+            startActivity(intent);
+        }
     }
 }

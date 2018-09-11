@@ -9,14 +9,16 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.asus.beasiswa.Helper.SQLiteHelper;
 
+import java.util.ArrayList;
+
 public class RegisteredUser extends AppCompatActivity {
 
 
     RecyclerView listStatus;
     SQLiteHelper sqLiteHelper;
     protected Cursor cursorUB,cursorUR;
-    String [] Ubiasa = new String[99];
-    String [] Uregistered = new String[99];
+    ArrayList<String> Ubiasa = new ArrayList<>();
+    ArrayList<String> Uregistered = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +45,12 @@ public class RegisteredUser extends AppCompatActivity {
 
         for (int i=0; i<cursorUB.getCount(); i++){
             cursorUB.moveToPosition(i);
-            Ubiasa[i] = cursorUB.getString(1).toString();
+            Ubiasa.add(cursorUB.getString(1).toString());
         }
 
         for (int i=0; i<cursorUR.getCount(); i++){
             cursorUR.moveToPosition(i);
-            Uregistered [i] = cursorUR.getString(1).toString();
+            Uregistered.add(cursorUR.getString(1).toString());
         }
 
         AdapterStatus adapter = new AdapterStatus(Ubiasa,Uregistered);

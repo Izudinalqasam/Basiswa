@@ -21,6 +21,8 @@ public class LoginPage extends AppCompatActivity {
     protected Cursor cursor;
     SQLiteHelper sqLiteHelper;
 
+    boolean logStat = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +70,12 @@ public class LoginPage extends AppCompatActivity {
                     Intent inet = new Intent(getApplicationContext(),MainActivity.class);
                     inet.putExtra("uLogin",cursor.getString(1).toString());
                     startActivity(inet);
+                    logStat = true;
                     break;
                 }
+            }
+            if (!logStat){
+                Toast.makeText(getApplicationContext(),"Password atau username salah",Toast.LENGTH_LONG).show();
             }
             cursor.close();
 
